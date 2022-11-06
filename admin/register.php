@@ -1,76 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
-	<meta name="author" content="AdminKit">
-	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
-
-	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-sign-up.html" />
-
-	<title>Sign Up | AdminKit Demo</title>
-
-	<link href="css/app.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
+<?php include 'template/head.php'; ?>
 
 <body>
-	<main class="d-flex w-100">
-		<div class="container d-flex flex-column">
-			<div class="row vh-100">
-				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
-					<div class="d-table-cell align-middle">
+    <main class="d-flex w-100" >
+        <div class="container d-flex flex-column">
+            <div class="row vh-100">
+                <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+                    <div class="d-table-cell align-middle">
 
-						<div class="text-center mt-4">
-							<h1 class="h2">Get started</h1>
-							<p class="lead">
-								Start creating the best possible user experience for you customers.
-							</p>
-						</div>
+                        <div class="text-center mt-4">
+                            <p class="lead">
+                                Shaa Resort Registeration
+                            </p>
+                        </div>
 
-						<div class="card">
-							<div class="card-body">
-								<div class="m-sm-4">
-									<form>
-										<div class="mb-3">
-											<label class="form-label">Name</label>
-											<input class="form-control form-control-lg" type="text" name="name" placeholder="Enter your name" />
-										</div>
-										<div class="mb-3">
-											<label class="form-label">Company</label>
-											<input class="form-control form-control-lg" type="text" name="company" placeholder="Enter your company name" />
-										</div>
-										<div class="mb-3">
-											<label class="form-label">Email</label>
-											<input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email" />
-										</div>
-										<div class="mb-3">
-											<label class="form-label">Password</label>
-											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter password" />
-										</div>
-										<div class="text-center mt-3">
-											<a href="index.html" class="btn btn-lg btn-primary">Sign up</a>
-											<!-- <button type="submit" class="btn btn-lg btn-primary">Sign up</button> -->
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="m-sm-4">
+                                    <form action="" method="post">
 
-					</div>
-				</div>
-			</div>
-		</div>
-	</main>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingText" name="name"
+                                                placeholder="jhondoe">
+                                            <label for="floatingText">Full name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" id="floatingInput" name="email"
+                                                placeholder="name@example.com">
+                                            <label for="floatingInput">Email address</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingText" name="phone"
+                                                placeholder="0753664078">
+                                            <label for="floatingText">Phone Number</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingText" name="nic"
+                                                placeholder="862545789V">
+                                            <label for="floatingText">NIC Number</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingText" name="address"
+                                                placeholder="Address">
+                                            <label for="floatingText">Address</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" name="gender" id="gender"
+                                                aria-label="Default select example">
+                                                <option value="1" selected>Male</option>
+                                                <option value="0">Female</option>
+                                            </select>
+                                            <label for="floatingText">Address</label>
+                                        </div>
 
-	<script src="js/app.js"></script>
+                                        <div class="form-floating mb-4">
+                                            <input type="password" class="form-control" name="password" id="password"
+                                                placeholder="Password">
+                                            <label for="floatingPassword">Password</label>
+                                        </div>
 
+                                        <div class="form-floating mb-4">
+                                            <input type="password" class="form-control" name="conf_password"
+                                                id="conf_password" placeholder="Password">
+                                            <label for="floatingPassword">Password</label>
+                                        </div>
+                
+                                        <button type="button" onclick="addCustomer(this.form)"
+                                            class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
+                                        <p class="text-center mb-0">Already have an Account? <a href="login.php">Sign In</a></p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
+    <?php include 'template/footer_script.php'; ?>
 </body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 </html>

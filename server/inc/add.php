@@ -25,62 +25,64 @@ function addRoom($data, $img)
 	}
 }
 
-function addVehicle($data, $img)
+
+
+
+function addBooking($data)
 {
 	include 'connection.php';
 
-	$vehicle_name = $data['vehicle_name'];
-	$cat_id = $data['cat_id'];
-	$vehicle_modal = $data['vehicle_modal'];
-	$vehicle_number = $data['vehicle_number'];
-	$vehicle_price = $data['vehicle_price'];
-	$vehicle_status = $data['vehicle_status'];
+	$room_id = $data['room_id'];
+	$departure_date = $data['departure_date'];
+	$arrival_date = $data['arrival_date'];
+	$customer_id = $data['customer_id'];
+	$total = $data['total'];
+	$booking_occupancy = $data['booking_occupancy'];
 
-	$count = getVehicleByName($vehicle_name);
+	$sql = "INSERT INTO booking(customer_id, room_id, total, arrival_date, departure_date, booking_occupancy, is_deleted ,date_updated) 
+	VALUES('$customer_id', '$room_id', '$total', '$arrival_date', '$departure_date', '$booking_occupancy' ,0 , now())";
+	mysqli_query($con, $sql);
+	echo json_encode(mysqli_insert_id($con));
+
+}
+
+function addFacility($data)
+{
+	include 'connection.php';
+
+	$facility_name = $data['facility_name'];
+	$facility_desc = $data['facility_desc'];
+
+	$count = checkFacilityByName($facility_name);
 
 	if ($count == 0) {
 
-		$sql = "INSERT INTO vehicle(cat_id, vehicle_name, vehicle_modal, vehicle_number, vehicle_price, vehicle_status, vehicle_image, is_deleted, date_updated) 
-		VALUES('$cat_id', '$vehicle_name', '$vehicle_modal', '$vehicle_number', '$vehicle_price', '$vehicle_status', '$img' , 0 , now())";
+		$sql = "INSERT INTO facility(facility_name, facility_desc) VALUES('$facility_name', '$facility_desc')";
 		return mysqli_query($con, $sql);
-
 	}
 	else {
 		echo json_encode($count);
 	}
 }
 
-function addBookingVehicle($data)
+
+function addLocation($data, $img)
 {
 	include 'connection.php';
 
-	$vehicle_id = $data['vehicle_id'];
-	$start_date = $data['start_date'];
-	$end_date = $data['end_date'];
-	$customer_id = $data['customer_id'];
-	$total = $data['total'];
+	$location_name = $data['location_name'];
 
-	$sql = "INSERT INTO vehicle_rent(vehicle_id, customer_id, start_date, end_date, total, rent_status, payment, is_deleted ,date_updated, driver_id, guid_id, extend) 
-	VALUES('$vehicle_id', '$customer_id', '$start_date', '$end_date', '$total', 0 , 0 , 0 , now(), 0 , 0 , 0)";
-	mysqli_query($con, $sql);
-	echo json_encode(mysqli_insert_id($con));
+	$count = checkLocationByName($location_name);
 
-}
+	if ($count == 0) {
 
-function bookpackage($data)
-{
-	include 'connection.php';
+		$sql = "INSERT INTO location(location_name, location_image) VALUES('$location_name', '$img')";
+		return mysqli_query($con, $sql);
 
-	$package_id = $data['package_id'];
-	$customer_id = $data['customer_id'];
-	$total = $data['total'];
-	$traval_start_date = $data['traval_start_date'];
-
-	$sql = "INSERT INTO package_orders(customer_id, total, payment, date_updated, is_deleted, order_status, traval_start_date, package_id, driver_id, guid_id) 
-	VALUES('$customer_id', '$total', 0 , now(), 0 , 0, '$traval_start_date' , '$package_id', 0, 0)";
-	mysqli_query($con, $sql);
-	echo json_encode(mysqli_insert_id($con));
-
+	}
+	else {
+		echo json_encode($count);
+	}
 }
 
 function addCategory($data, $img)
@@ -95,41 +97,8 @@ function addCategory($data, $img)
 
 }
 
-function addBooking($data)
-{
-	include 'connection.php';
 
-	$customer_id = $data['customer_id'];
-	$service_id = $data['service_id'];
-	$booking_date = $data['booking_date'];
-	$booking_time = $data['booking_time'];
-	$booking_price = $data['booking_price'];
-	$speacial_request = $data['speacial_request'];
-	$number_of_works = $data['number_of_works'];
-	$waiting_time = $data['waiting_time'];
-
-
-    $newTime = date('H:i:s', strtotime($booking_time. ' + ' . $waiting_time . ' hours'));
-
-	$newStartTime = $booking_date. " " . $booking_time;
-	$newEndTime = $booking_date. " " . $newTime;
-
-	$count = checkBookingDate($newStartTime, $newEndTime, $service_id);
-
-	if ($count == 0 || $count < $number_of_works) {
-
-		$sql = "INSERT INTO booking(service_id, customer_id, booking_date, speacial_request, booking_price, is_deleted, date_updated, end_time, status) 
-		VALUES('$service_id', '$customer_id', '$newStartTime', '$speacial_request', '$booking_price', 0, now(), '$newEndTime', 0)";
-		return mysqli_query($con, $sql);
-
-	}
-	else {
-		echo json_encode($count);
-	}
-}
-
-
-//contact
+//cntact
 function addMessage($data)
 {
     include 'connection.php';
@@ -144,20 +113,6 @@ function addMessage($data)
 	return mysqli_query($con, $sql);
 }
 
-function addExtend($data)
-{
-    include 'connection.php';
-
-    $rent_id = $data['rent_id'];
-    $changed_date = $data['changed_date'];
-    $request_message = $data['request_message'];
-    $extended_total = $data['extended_total'];
-
-
-	$sql = "INSERT INTO extend(rent_id, changed_date, extended_total, date_updated, is_deleted, request_message, extend_status) 
-	VALUES('$rent_id', '$changed_date', '$extended_total', now(), 0 , '$request_message', 0)";
-	return mysqli_query($con, $sql);
-}
 
 
 function createCustomer($data)
@@ -176,36 +131,6 @@ function createCustomer($data)
 	return mysqli_query($con, $sql);
 	
 }
-function createDriver($data)
-{
-	include 'connection.php';
-
-	$name = $data['name'];
-	$email = $data['email'];
-	$phone = $data['phone'];
-	$nic = $data['nic'];
-	$address = $data['address'];
-	$gender = $data['gender'];
-
-	$sql = "INSERT INTO driver(name, email, phone, nic, address, gender, is_deleted) VALUES('$name', '$email', '$phone', '$nic', '$address', '$gender', 0 )";
-	return mysqli_query($con, $sql);
-	
-}
-function createGuide($data)
-{
-	include 'connection.php';
-
-	$name = $data['name'];
-	$email = $data['email'];
-	$phone = $data['phone'];
-	$nic = $data['nic'];
-	$address = $data['address'];
-	$gender = $data['gender'];
-
-	$sql = "INSERT INTO guide(name, email, phone, nic, address, gender, is_deleted) VALUES('$name', '$email', '$phone', '$nic', '$address', '$gender', 0 )";
-	return mysqli_query($con, $sql);
-	
-}
 
 function insertImagetoGallery($img)
 {
@@ -215,20 +140,5 @@ function insertImagetoGallery($img)
 	return mysqli_query($con, $sql);
 }
 
-function createStaff($data)
-{
-	include 'connection.php';
-
-	$name = $data['name'];
-	$email = $data['email'];
-	$phone = $data['phone'];
-	$nic = $data['nic'];
-	$address = $data['address'];
-	$gender = $data['gender'];
-
-	$sql = "INSERT INTO staff(name, email, phone, nic, address, gender, is_deleted) VALUES('$name', '$email', '$phone', '$nic', '$address', '$gender', 0 )";
-	return mysqli_query($con, $sql);
-	
-}
 
 ?>

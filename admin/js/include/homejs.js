@@ -52,87 +52,21 @@ updatedDate = (form) => {
     } else { errorMessage("Please Select the Date"); }
 }
 
-requestExtend = (form) => {
+
+
+makeBooking = (form) => {
     var formData = new FormData(form);
-
-    if (formData.get('changed_date').trim() != '') {
-        if (formData.get('request_message').trim() != '') {
-            if (formData.get('extended_total').trim() != '') {
-
-                $.ajax({
-                    method: "POST",
-                    url: HOME_API_PATH + "addExtend",
-                    data: formData,
-                    success: function ($data) {
-                        console.log($data);
-                        successToastRedirect("rent_list.php");
-                    },
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    error: function (error) {
-                        console.log(`Error ${error}`);
-                    }
-                });
-
-            } else { errorMessage("Please Check Date befoure Submit"); }
-        } else { errorMessage("Please Enter Message"); }
-    } else { errorMessage("Please Enter Date"); }
-
-}
-
-addBooking = (form) => {
-    var formData = new FormData(form);
-
-    if (formData.get('service_id') != 0) {
-        if (formData.get('booking_date').trim() != '') {
-            if (formData.get('booking_time').trim() != '') {
-                if (formData.get('speacial_request').trim() != '') {
-                    $.ajax({
-                        method: "POST",
-                        url: HOME_API_PATH + "addBooking",
-                        data: formData,
-                        success: function ($data) {
-                            console.log($data);
-                            if ($data > 0) {
-                                errorMessage("This Time is Already Taken! Please Select Other Time")
-                            } else {
-                                successToast();
-                            }
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        error: function (error) {
-                            console.log(`Error ${error}`);
-                        }
-                    });
-                } else { errorMessage("Please Enter Special request"); }
-            } else { errorMessage("Please Select Booking Time"); }
-        } else { errorMessage("Please Select Booking Date"); }
-    } else { errorMessage("Please Select Service"); }
-
-}
-
-addtoCartProductwithQty = (pid, price) => {
-
-    var qty = document.getElementById('qty').value;
-    var data = {
-        pid: pid,
-        price: price,
-        qty: qty,
-    };
 
     $.ajax({
         method: "POST",
-        url: "add_to_cart.php?pid=" + pid + "&product_price=" + price + "&qty=" + qty,
-        data: data,
+        url: HOME_API_PATH + "addBooking",
+        data: formData,
         success: function ($data) {
             console.log($data);
-            if ($data === '"Fail"') {
-                window.location.href = 'admin/login.php';
+            if ($data > 0) {
+                errorMessage("This Time is Already Taken! Please Select Other Time")
             } else {
-                successToastCart();
+                successToast();
             }
         },
         cache: false,
@@ -142,183 +76,9 @@ addtoCartProductwithQty = (pid, price) => {
             console.log(`Error ${error}`);
         }
     });
-}
-
-addtoCartProduct = (pid, price) => {
-
-    var data = {
-        pid: pid,
-        price: price,
-    };
-
-    $.ajax({
-        method: "POST",
-        url: "add_to_cart.php?pid=" + pid + "&product_price=" + price,
-        data: data,
-        success: function ($data) {
-            console.log($data);
-            if ($data === '"Fail"') {
-                window.location.href = 'admin/login.php';
-            } else {
-                successToastCart();
-            }
-        },
-        cache: false,
-        contentType: false,
-        processData: false,
-        error: function (error) {
-            console.log(`Error ${error}`);
-
-        }
-    });
-}
-
-checkSelection = (id, field) => {
-    window.location.href = "shop.php?id=" + id + "&field=" + field;
-}
-
-qtryChange = (cart_id, field, action, currentQty) => {
-
-    let val = 0;
-
-    if (action == 1) {
-        var currentQtyint = parseInt(currentQty);
-        let sum = currentQtyint + 1;
-        val = sum.toString();
-    } else {
-        var currentQtyint = parseInt(currentQty);
-        let sum = currentQtyint - 1;
-        val = sum.toString();
-    }
-
-
-    var data = {
-        cart_id: cart_id,
-        field: field,
-        value: val,
-    }
-
-    $.ajax({
-        method: "POST",
-        url: HOME_API_PATH + "editQty",
-        data: data,
-        success: function ($data) {
-            console.log($data);
-            successToast();
-        },
-        error: function (error) {
-            console.log(`Error ${error}`);
-        }
-    });
 
 }
 
-checkOut = (form) => {
-    var formData = new FormData(form);
-
-
-    if (formData.get('shipping_address').trim() != '') {
-        if (formData.get('billing_address').trim() != '') {
-
-            if (formData.get('total') > 0) {
-
-                var data = {
-                    customer_id: formData.get('customer_id'),
-                    shipping_address: formData.get('shipping_address'),
-                    billing_address: formData.get('billing_address'),
-                    total: formData.get('total'),
-                }
-
-                $.ajax({
-                    method: "POST",
-                    url: HOME_API_PATH + "checkoutOrder",
-                    data: data,
-                    success: function ($data) {
-                        console.log($data);
-                        successToastRedirect("orders.php");
-                    },
-                    error: function (error) {
-                        console.log(`Error ${error}`);
-                    }
-                });
-
-            } else { errorMessage("Please Select adleast one Item to Buy!"); }
-
-        } else { errorMessage("Please Enter Billing Address"); }
-    } else { errorMessage("Please Enter Shipping Address"); }
-
-
-}
-
-
-placeOrder = (customer_id, total) => {
-
-    var data = {
-        customer_id: customer_id,
-        total: total,
-    }
-
-    if (total > 0) {
-
-
-        $.ajax({
-            method: "POST",
-            url: HOME_API_PATH + "placeOrder",
-            data: data,
-            success: function ($data) {
-                console.log($data);
-                successToastRedirect("order.php");
-            },
-            error: function (error) {
-                console.log(`Error ${error}`);
-            }
-        });
-    } else { errorMessage("Please Add item to cart!"); }
-
-}
-
-cartDelete = (id, table, id_fild) => {
-
-    Swal.fire({
-        title: 'Are you sure? this prodcut will be delete',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-
-            var data = {
-                id: id,
-                table: table,
-                id_fild: id_fild,
-            }
-
-            console.log(data);
-
-            $.ajax({
-                method: "POST",
-                url: HOME_API_PATH + "permanantDeleteData",
-                data: data,
-                success: function ($data) {
-                    console.log($data);
-                    successToastDelete();
-                },
-                error: function (error) {
-                    console.log(`Error ${error}`);
-                }
-            });
-            Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-            )
-        }
-    })
-
-}
 //profile changers
 
 changeEmail = (form) => {
@@ -547,15 +307,13 @@ deleteDataFromHome = (id, table, id_fild) => {
 }
 
 
-bookRent = (form) => {
+bookRoom = (form) => {
 
     var formData = new FormData(form);
 
-    if (document.getElementById('p_name').value.trim() != "" && document.getElementById('exdate').value.trim() != "" && document.getElementById('cvv').value.trim() != "") {
-
         Swal.fire({
             title: 'Are you sure?',
-            text: "You won't Rent This Vehicle!",
+            text: "You won't Book This Room!",
             icon: 'info',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -565,20 +323,21 @@ bookRent = (form) => {
             if (result.isConfirmed) {
 
                 var data = {
-                    vehicle_id: formData.get('vehicle_id'),
-                    start_date: formData.get('start_date'),
-                    end_date: formData.get('end_date'),
+                    room_id: formData.get('room_id'),
+                    arrival_date: formData.get('arrival_date'),
+                    departure_date: formData.get('departure_date'),
                     customer_id: formData.get('customer_id'),
                     total: formData.get('total'),
+                    booking_occupancy: formData.get('booking_occupancy'),
                 }
 
                 $.ajax({
                     method: "POST",
-                    url: HOME_API_PATH + "addBookingVehicle",
+                    url: HOME_API_PATH + "addBooking",
                     data: data,
                     success: function ($data) {
                         console.log($data);
-                        successToastRedirect("rent_confirmation.php?rent_id=" + $data);
+                        successToastRedirect("booking_list.php");
                     },
                     error: function (error) {
                         console.log(`Error ${error}`);
@@ -592,9 +351,7 @@ bookRent = (form) => {
 
             }
         })
-    } else {
-        errorMessage("Please Enter Card Details");
-    }
+ 
 }
 
 
@@ -667,12 +424,12 @@ callUpdateRequestFromHome = (data) => {
 search = (form) => {
     console.log("clicked");
     var formData = new FormData(form);
-    var start_date = formData.get('start_date');
-    var end_date = formData.get('end_date');
-    var cat_id = formData.get('cat_id');
-    if (formData.get('start_date').trim() != "" && formData.get('end_date').trim() != "" && formData.get('cat_id').trim() != "") {
+    var arrival_date = formData.get('arrival_date');
+    var departure_date = formData.get('departure_date');
+    var booking_occupancy = formData.get('booking_occupancy');
+    if (formData.get('arrival_date').trim() != "" && formData.get('departure_date').trim() != "" && formData.get('booking_occupancy').trim() != "") {
 
-        window.location.href = "cars.php?start_date=" + start_date + "&end_date=" + end_date + "&cat_id=" + cat_id;
+        window.location.href = "accomodation.php?arrival_date=" + arrival_date + "&departure_date=" + departure_date + "&booking_occupancy=" + booking_occupancy;
     } else {
         window.location.href = "index.php";
     }

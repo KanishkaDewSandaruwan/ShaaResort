@@ -85,212 +85,107 @@ addRoom = (form) => {
     } else { errorMessage("Please Enter Room Name"); }
 }
 
-addVehicle = (form) => {
+addFacility = (form) => {
     let fd = new FormData(form);
 
-    if (fd.get("vehicle_name").trim() != "") {
-        if (fd.get("file")) {
+    if (fd.get("facility_name").trim() != "") {
+        if (fd.get("facility_desc").trim() != "") {
 
-            $.ajax({
-                method: "POST",
-                url: API_PATH + "addVehicle",
-                data: fd,
-                success: function ($data) {
-                    console.log($data);
-                    if ($data > 0) {
-                        errorMessage("This Vehicle Already Registerd!");
-                    } else {
-                        successToast();
+                $.ajax({
+                    method: "POST",
+                    url: API_PATH + "addFacility",
+                    data: fd,
+                    success: function ($data) {
+                        console.log($data);
+                        if ($data > 0) {
+                            errorMessage("This Facility Already Registerd!");
+                        } else {
+                            successToast();
+                        }
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    error: function (error) {
+                        console.log(`Error ${error}`);
                     }
-                },
-                cache: false,
-                contentType: false,
-                processData: false,
-                error: function (error) {
-                    console.log(`Error ${error}`);
-                }
-            });
-        } else { errorMessage("Please SelectImage"); }
-    } else { errorMessage("Please Enter Vehicle Details"); }
-}
+                });
+            } else { errorMessage("Please Enter Facility Description"); }
+        } else { errorMessage("Please Enter Facility Name"); }
+    }
 
-addCustomer = (form) => {
-    let fd = new FormData(form);
+    addLocation = (form) => {
+        let fd = new FormData(form);
 
-    if (fd.get('name').trim() != '') {
-        if (fd.get('email').trim() != '') {
-            if (fd.get('phone').trim() != '') {
-                if (fd.get('nic').trim() != '') {
-                    if (fd.get('address').trim() != '') {
-                        if (fd.get('password').trim() != '') {
-                            if (fd.get('conf_password').trim() != '') {
-                                if (fd.get('password') == fd.get('conf_password')) {
-                                    if (emailvalidation(fd.get('email'))) {
-                                        if (phonenumber(fd.get('phone'))) {
+        if (fd.get("location_name").trim() != "") {
+            if (fd.get("file")) {
 
-                                            $.ajax({
-                                                method: "POST",
-                                                url: API_PATH + "addCustomer",
-                                                data: fd,
-                                                success: function ($data) {
-                                                    console.log($data);
-
-                                                    if ($data > 0) {
-                                                        errorMessage("This Customer Already Registerd!");
-                                                    } else {
-                                                        successToastRedirect('login.php');
-                                                    }
-                                                },
-                                                cache: false,
-                                                contentType: false,
-                                                processData: false,
-                                                error: function (error) {
-                                                    console.log(`Error ${error}`);
-                                                }
-                                            });
-
-                                        }
-                                    }
-                                } else { errorMessage("Password is Not Match"); }
-                            } else { errorMessage("Please Confirm Password"); }
-                        } else { errorMessage("Please Enter Password"); }
-                    } else { errorMessage("Please Enter Address"); }
-                } else { errorMessage("Please Enter NIC"); }
-            } else { errorMessage("Please Enter Phone number"); }
-        } else { errorMessage("Please Enter Email"); }
-    } else { errorMessage("Please Enter Full Name"); }
-}
-
-addDriver = (form) => {
-    let fd = new FormData(form);
-
-    if (fd.get('name').trim() != '') {
-        if (fd.get('email').trim() != '') {
-            if (fd.get('phone').trim() != '') {
-                if (fd.get('nic').trim() != '') {
-                    if (fd.get('address').trim() != '') {
-
-                        if (emailvalidation(fd.get('email'))) {
-                            if (phonenumber(fd.get('phone'))) {
-
-                                $.ajax({
-                                    method: "POST",
-                                    url: API_PATH + "addDriver",
-                                    data: fd,
-                                    success: function ($data) {
-                                        console.log($data);
-
-                                        if ($data > 0) {
-                                            errorMessage("This Customer Already Registerd!");
-                                        } else {
-                                            successToast();
-                                        }
-                                    },
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false,
-                                    error: function (error) {
-                                        console.log(`Error ${error}`);
-                                    }
-                                });
-
-                            }
+                $.ajax({
+                    method: "POST",
+                    url: API_PATH + "addLocation",
+                    data: fd,
+                    success: function ($data) {
+                        console.log($data);
+                        if ($data > 0) {
+                            errorMessage("This Location Already Registerd!");
+                        } else {
+                            successToast();
                         }
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    error: function (error) {
+                        console.log(`Error ${error}`);
+                    }
+                });
+            } else { errorMessage("Please SelectImage"); }
+        } else { errorMessage("Please Enter Location Name"); }
+    }
 
-                    } else { errorMessage("Please Enter Address"); }
-                } else { errorMessage("Please Enter NIC"); }
-            } else { errorMessage("Please Enter Phone number"); }
-        } else { errorMessage("Please Enter Email"); }
-    } else { errorMessage("Please Enter Full Name"); }
-}
+    addCustomer = (form) => {
+        let fd = new FormData(form);
 
-addGuide = (form) => {
-    let fd = new FormData(form);
+        if (fd.get('name').trim() != '') {
+            if (fd.get('email').trim() != '') {
+                if (fd.get('phone').trim() != '') {
+                    if (fd.get('nic').trim() != '') {
+                        if (fd.get('address').trim() != '') {
+                            if (fd.get('password').trim() != '') {
+                                if (fd.get('conf_password').trim() != '') {
+                                    if (fd.get('password') == fd.get('conf_password')) {
+                                        if (emailvalidation(fd.get('email'))) {
+                                            if (phonenumber(fd.get('phone'))) {
 
-    if (fd.get('name').trim() != '') {
-        if (fd.get('email').trim() != '') {
-            if (fd.get('phone').trim() != '') {
-                if (fd.get('nic').trim() != '') {
-                    if (fd.get('address').trim() != '') {
+                                                $.ajax({
+                                                    method: "POST",
+                                                    url: API_PATH + "addCustomer",
+                                                    data: fd,
+                                                    success: function ($data) {
+                                                        console.log($data);
 
-                        if (emailvalidation(fd.get('email'))) {
-                            if (phonenumber(fd.get('phone'))) {
-
-                                $.ajax({
-                                    method: "POST",
-                                    url: API_PATH + "addGuide",
-                                    data: fd,
-                                    success: function ($data) {
-                                        console.log($data);
-
-                                        if ($data > 0) {
-                                            errorMessage("This Guide Already Registerd!");
-                                        } else {
-                                            successToast();
-                                        }
-                                    },
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false,
-                                    error: function (error) {
-                                        console.log(`Error ${error}`);
-                                    }
-                                });
-
-                            }
-                        }
-
-                    } else { errorMessage("Please Enter Address"); }
-                } else { errorMessage("Please Enter NIC"); }
-            } else { errorMessage("Please Enter Phone number"); }
-        } else { errorMessage("Please Enter Email"); }
-    } else { errorMessage("Please Enter Full Name"); }
-}
-
-
-addStaff = (form) => {
-    let fd = new FormData(form);
-
-    if (fd.get('name').trim() != '') {
-        if (fd.get('email').trim() != '') {
-            if (fd.get('phone').trim() != '') {
-                if (fd.get('nic').trim() != '') {
-                    if (fd.get('address').trim() != '') {
-                        if (fd.get('password').trim() != '') {
-                            if (fd.get('conf_password').trim() != '') {
-                                if (fd.get('password') == fd.get('conf_password')) {
-                                    if (emailvalidation(fd.get('email'))) {
-                                        if (phonenumber(fd.get('phone'))) {
-
-                                            $.ajax({
-                                                method: "POST",
-                                                url: API_PATH + "addStaff",
-                                                data: fd,
-                                                success: function ($data) {
-                                                    console.log($data);
-
-                                                    if ($data > 0) {
-                                                        errorMessage("This Staff Already Registerd!");
-                                                    } else {
-                                                        successToast();
+                                                        if ($data > 0) {
+                                                            errorMessage("This Customer Already Registerd!");
+                                                        } else {
+                                                            successToastRedirect('login.php');
+                                                        }
+                                                    },
+                                                    cache: false,
+                                                    contentType: false,
+                                                    processData: false,
+                                                    error: function (error) {
+                                                        console.log(`Error ${error}`);
                                                     }
-                                                },
-                                                cache: false,
-                                                contentType: false,
-                                                processData: false,
-                                                error: function (error) {
-                                                    console.log(`Error ${error}`);
-                                                }
-                                            });
+                                                });
 
+                                            }
                                         }
-                                    }
-                                } else { errorMessage("Password is Not Match"); }
-                            } else { errorMessage("Please Confirm Password"); }
-                        } else { errorMessage("Please Enter Password"); }
-                    } else { errorMessage("Please Enter Address"); }
-                } else { errorMessage("Please Enter NIC"); }
-            } else { errorMessage("Please Enter Phone number"); }
-        } else { errorMessage("Please Enter Email"); }
-    } else { errorMessage("Please Enter Full Name"); }
-}
+                                    } else { errorMessage("Password is Not Match"); }
+                                } else { errorMessage("Please Confirm Password"); }
+                            } else { errorMessage("Please Enter Password"); }
+                        } else { errorMessage("Please Enter Address"); }
+                    } else { errorMessage("Please Enter NIC"); }
+                } else { errorMessage("Please Enter Phone number"); }
+            } else { errorMessage("Please Enter Email"); }
+        } else { errorMessage("Please Enter Full Name"); }
+    }

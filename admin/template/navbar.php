@@ -43,6 +43,16 @@
                 </a>
             </li>
             <li class="sidebar-item">
+                <a class="sidebar-link" href="location.php">
+                    <i class="align-middle" data-feather="map"></i> <span class="align-middle">Location</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="facilities.php">
+                    <i class="align-middle" data-feather="map"></i> <span class="align-middle">Facilities</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
                 <a class="sidebar-link" href="gallery.php">
                     <i class="align-middle" data-feather="image"></i> <span class="align-middle">Gallery</span>
                 </a>

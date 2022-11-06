@@ -64,6 +64,28 @@ uploadImagevehicleEdit = (ele) => {
     });
 }
 
+uploadImageLocationEdit = (ele) => {
+    var formData = new FormData(ele);
+
+    $.ajax({
+        method: "POST",
+        url: API_PATH + "uploadImageLocationEdit",
+
+
+        data: formData,
+        success: function ($data) {
+            console.log($data);
+            loading("Image Uploding...");
+        },
+        cache: false,
+        contentType: false,
+        processData: false,
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+    });
+}
+
 uploadSettingImage = (ele) => {
     var formData = new FormData(ele);
 

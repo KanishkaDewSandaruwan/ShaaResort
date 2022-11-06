@@ -44,6 +44,20 @@ else if (isset($_GET['function_code']) && $_GET['function_code'] == 'uploadImage
     }
 
 }
+else if (isset($_GET['function_code']) && $_GET['function_code'] == 'uploadImageLocationEdit') {
+
+    $img = $_FILES['file']['name'];
+    $target_dir = "uploads/location/";
+    $target_file = $target_dir . basename($img);
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $extensions_arr = array("jpg", "jpeg", "png", "gif", "jfif", "svg", "webp");
+
+    if (in_array($imageFileType, $extensions_arr)) {
+        move_uploaded_file($_FILES['file']['tmp_name'], $target_dir . $img);
+        editImages($_POST, $img);
+    }
+
+}
 else if (isset($_GET['function_code']) && $_GET['function_code'] == 'uploadImagevehicleEdit') {
 
     $img = $_FILES['file']['name'];
@@ -71,17 +85,17 @@ else if (isset($_GET['function_code']) && $_GET['function_code'] == 'addRoom') {
         addRoom($_POST, $img);
     }
 }
-else if (isset($_GET['function_code']) && $_GET['function_code'] == 'addVehicle') {
+else if (isset($_GET['function_code']) && $_GET['function_code'] == 'addLocation') {
 
     $img = $_FILES['file']['name'];
-    $target_dir = "uploads/vehicle/";
+    $target_dir = "uploads/location/";
     $target_file = $target_dir . basename($img);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $extensions_arr = array("jpg", "jpeg", "png", "gif", "jfif", "svg", "webp");
 
     if (in_array($imageFileType, $extensions_arr)) {
         move_uploaded_file($_FILES['file']['tmp_name'], $target_dir . $img);
-        addVehicle($_POST, $img);
+        addLocation($_POST, $img);
     }
 }
 else if (isset($_GET['function_code']) && $_GET['function_code'] == 'deleteData') {
@@ -130,8 +144,10 @@ else if (isset($_GET['function_code']) && $_GET['function_code'] == 'login') {
 	addMessage($_POST);
 }else if (isset($_GET['function_code']) && $_GET['function_code'] == 'addExtend') {
 	addExtend($_POST);
-}else if (isset($_GET['function_code']) && $_GET['function_code'] == 'addBookingVehicle') {
-	addBookingVehicle($_POST);
+}else if (isset($_GET['function_code']) && $_GET['function_code'] == 'addBooking') {
+	addBooking($_POST);
+}else if (isset($_GET['function_code']) && $_GET['function_code'] == 'addFacility') {
+	addFacility($_POST);
 }else if (isset($_GET['function_code']) && $_GET['function_code'] == 'bookpackage') {
 	bookpackage($_POST);
 }

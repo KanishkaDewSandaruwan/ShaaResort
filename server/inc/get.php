@@ -12,6 +12,14 @@ function getAllroom()
     return mysqli_query($con, $viewcat);
 }
 
+function getAllBooking()
+{
+    include 'connection.php';
+
+    $viewcat = "SELECT * FROM booking join customer on customer.customer_id = booking.customer_id WHERE booking.is_deleted = 0 ";
+    return mysqli_query($con, $viewcat);
+}
+
 function getAllAvailableroom()
 {
     include 'connection.php';
@@ -26,6 +34,23 @@ function checkRoomByName($room_name)
 	include 'connection.php';
 
 	$product = "SELECT * FROM room WHERE room_name = '$room_name' AND is_deleted = 0";
+	$result = mysqli_query($con, $product);
+	return mysqli_num_rows($result);
+}
+
+function checkLocationByName($location_name)
+{
+	include 'connection.php';
+
+	$product = "SELECT * FROM location WHERE location_name = '$location_name'";
+	$result = mysqli_query($con, $product);
+	return mysqli_num_rows($result);
+}
+function checkFacilityByName($facility_name)
+{
+	include 'connection.php';
+
+	$product = "SELECT * FROM facility WHERE facility_name = '$facility_name'";
 	$result = mysqli_query($con, $product);
 	return mysqli_num_rows($result);
 }
@@ -73,14 +98,6 @@ function getRentByID($rent_id)
 
 }
 
-function getExtendByID($rent_id)
-{
-	include 'connection.php';
-
-	$rent = "SELECT * FROM extend WHERE is_deleted = 0 AND rent_id = '$rent_id' ";
-	return mysqli_query($con, $rent);
-
-}
 
 function getRentByIDWithVehicle($rent_id)
 {
@@ -148,11 +165,11 @@ function getAllRentsByID($customer_id)
 
 }
 
-function getRentByDateAvailable($vehicle_id, $start_date, $end_date)
+function getRoomByDateAvailable($room_id, $arrival_date, $departure_date)
 {
 	include 'connection.php';
 
-	$rent = "SELECT * FROM vehicle_rent WHERE is_deleted = 0 AND NOT(end_date < '$start_date' OR start_date > '$end_date') AND vehicle_id = '$vehicle_id' ";
+	$rent = "SELECT * FROM booking WHERE is_deleted = 0 AND NOT(departure_date < '$arrival_date' OR arrival_date > '$departure_date') AND room_id = '$room_id' ";
 	return mysqli_query($con, $rent);
 
 }
@@ -265,13 +282,6 @@ function getLoginAdmin($data){
 
 
 
-function checkStaff($email)
-{
-    include 'connection.php';
-
-    $q1 = "SELECT * FROM staff WHERE email='$email' AND is_deleted='0'";
-    return mysqli_query($con, $q1);
-}
 
 function checkCustomerByEmail($email)
 {
@@ -304,22 +314,6 @@ function getAllCustomer()
 
 //driver
 
-function getAlldriver()
-{
-    include 'connection.php';
-
-    $q1 = "SELECT * FROM driver WHERE is_deleted = 0";
-    return mysqli_query($con, $q1);
-}
-
-function getDriverByID($driver_id)
-{
-    include 'connection.php';
-
-    $q1 = "SELECT * FROM driver WHERE is_deleted = 0 AND driver_id = '$driver_id'";
-    return mysqli_query($con, $q1);
-}
-
 function getAllCategory()
 {
     include 'connection.php';
@@ -348,38 +342,29 @@ function getAllgalleryImages()
     return mysqli_query($con, $q1);
 
 }
-//guide
 
-function getAllguide()
+function getAllLocation()
 {
     include 'connection.php';
 
-    $q1 = "SELECT * FROM guide WHERE is_deleted = 0";
-    return mysqli_query($con, $q1);
-
-}
-function getGuideByID($guid_id)
-{
-    include 'connection.php';
-
-    $q1 = "SELECT * FROM guide WHERE is_deleted = 0 AND guid_id = '$guid_id'";
-    return mysqli_query($con, $q1);
-}
-//staff
-
-function getAllstaff()
-{
-    include 'connection.php';
-
-    $q1 = "SELECT * FROM staff WHERE is_deleted = 0 AND email != 'admin'";
+    $q1 = "SELECT * FROM location";
     return mysqli_query($con, $q1);
 }
 
-function getStaffByID($staff_id)
+function getAllFacility()
 {
     include 'connection.php';
 
-    $q1 = "SELECT * FROM staff WHERE is_deleted = 0 AND staff_id = '$staff_id'";
+    $q1 = "SELECT * FROM facility";
+    return mysqli_query($con, $q1);
+}
+
+
+function getAllbookingByCustomer($customer_id)
+{
+    include 'connection.php';
+
+    $q1 = "SELECT * FROM booking join room on room.room_id = booking.room_id  WHERE booking.customer_id = '$customer_id'";
     return mysqli_query($con, $q1);
 }
 
@@ -421,26 +406,22 @@ function dataforCount($table , $fields){
     echo $row['sum'];
 }
 
-function dataforCountMonth($table){
+function dataforCountMonth($table , $fields){
 	include 'connection.php';
 
-	$counts = "SELECT sum(booking_price) as sum FROM $table WHERE month(now()) = month(date_updated)";
-    return mysqli_query($con,$counts);
+	$counts = "SELECT sum($fields) as sum FROM $table WHERE month(now()) = month(date_updated)";
+    $getdata = mysqli_query($con,$counts);
+    $row = mysqli_fetch_assoc($getdata);
+    echo $row['sum'];
 }
 
-function dataforCountToday($table){
+function dataforCountToday($table , $fields){
 	include 'connection.php';
 
-	$counts = "SELECT sum(booking_price) as sum FROM $table WHERE day(now()) = day(date_updated)";
-    return mysqli_query($con,$counts);
-}
-
-function dataforCountLastWeek($table){
-	include 'connection.php';
-    $NewDate = Date('y:m:d', strtotime('-7 days'));
-
-	$counts = "SELECT sum(booking_price) as sum FROM $table WHERE NOT(date_updated < '$NewDate'  OR date_updated >  now())";
-    return mysqli_query($con,$counts);
+	$counts = "SELECT sum($fields) as sum FROM $table WHERE day(now()) = day(date_updated)";
+    $getdata = mysqli_query($con,$counts);
+    $row = mysqli_fetch_assoc($getdata);
+    echo $row['sum'];
 }
 
 
@@ -459,17 +440,6 @@ function checkPasswordByName($data){
 	$password = $data['password'];
 
 	$viewcat = "SELECT * FROM customer WHERE password = '$password' AND email = '$email' ";
-	$result = mysqli_query($con,$viewcat);
-	$count = mysqli_num_rows($result);
-	echo $count;
-}
-
-function checkStaffPasswordByEmail($data){
-	include 'connection.php';
-	$email = $data['email'];
-	$password = $data['password'];
-
-	$viewcat = "SELECT * FROM staff WHERE password = '$password' AND email = '$email' ";
 	$result = mysqli_query($con,$viewcat);
 	$count = mysqli_num_rows($result);
 	echo $count;
