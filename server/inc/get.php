@@ -364,7 +364,7 @@ function getAllbookingByCustomer($customer_id)
 {
     include 'connection.php';
 
-    $q1 = "SELECT * FROM booking join room on room.room_id = booking.room_id  WHERE booking.customer_id = '$customer_id'";
+    $q1 = "SELECT * FROM booking join room on room.room_id = booking.room_id  WHERE booking.customer_id = '$customer_id' AND booking.is_deleted = 0 ";
     return mysqli_query($con, $q1);
 }
 
@@ -382,7 +382,16 @@ function getAllMessages(){
 function dataCount($table){
 	include 'connection.php';
 
-	$counts = "SELECT * FROM $table";
+	$counts = "SELECT * FROM $table WHERE is_deleted = 0";
+	$res =  mysqli_query($con,$counts);
+    $count =  mysqli_num_rows($res);
+    echo $count;
+}
+
+function dataCountCustomer($table){
+	include 'connection.php';
+
+	$counts = "SELECT * FROM $table WHERE is_deleted = 0 AND email != 'admin' ";
 	$res =  mysqli_query($con,$counts);
     $count =  mysqli_num_rows($res);
     echo $count;
@@ -400,7 +409,7 @@ function dataCountWhere($table, $where){
 function dataforCount($table , $fields){
 	include 'connection.php';
 
-	$counts = "SELECT sum($fields) as sum FROM $table";
+	$counts = "SELECT sum($fields) as sum FROM $table WHERE is_deleted = 0 AND booking_status != '2'";
     $getdata = mysqli_query($con,$counts);
     $row = mysqli_fetch_assoc($getdata);
     echo $row['sum'];
@@ -409,7 +418,7 @@ function dataforCount($table , $fields){
 function dataforCountMonth($table , $fields){
 	include 'connection.php';
 
-	$counts = "SELECT sum($fields) as sum FROM $table WHERE month(now()) = month(date_updated)";
+	$counts = "SELECT sum($fields) as sum FROM $table WHERE month(now()) = month(date_updated) AND is_deleted = 0 AND booking_status != '2'";
     $getdata = mysqli_query($con,$counts);
     $row = mysqli_fetch_assoc($getdata);
     echo $row['sum'];
@@ -418,7 +427,7 @@ function dataforCountMonth($table , $fields){
 function dataforCountToday($table , $fields){
 	include 'connection.php';
 
-	$counts = "SELECT sum($fields) as sum FROM $table WHERE day(now()) = day(date_updated)";
+	$counts = "SELECT sum($fields) as sum FROM $table WHERE day(now()) = day(date_updated) AND is_deleted = 0 AND booking_status != '2'";
     $getdata = mysqli_query($con,$counts);
     $row = mysqli_fetch_assoc($getdata);
     echo $row['sum'];

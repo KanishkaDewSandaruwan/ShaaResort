@@ -63,9 +63,16 @@
    if (isset($_REQUEST['arrival_date']) && isset($_REQUEST['departure_date']) && isset($_REQUEST['booking_occupancy'])):
     $getall = getAllroom();
     if ($row = mysqli_fetch_assoc($getall)) :
-        $room_id = $row['room_id'];?>
+        $room_id = $row['room_id']; 
+        
+        ?>
 
     <section class="accomodation_area section_gap">
+        <?php 
+        $rent_count = getRoomByDateAvailable($room_id, $_REQUEST['arrival_date'], $_REQUEST['departure_date']);
+        $count = mysqli_num_rows($rent_count);
+
+        if($count == 0) : ?>
         <div class="container">
             <div class="section_title text-center">
                 <h2 class="title_color">Hotel Accomodation</h2>
@@ -81,9 +88,6 @@
                         
                         $rent_count = getRoomByDateAvailable($room_id, $_REQUEST['arrival_date'], $_REQUEST['departure_date']);
                         $count = mysqli_num_rows($rent_count);
-        
-                        if($count == 0) :
-                        
                         ?>
 
 
@@ -100,12 +104,13 @@
                         <h5>Rs. <?php echo $row['room_price']; ?>.00<small>/Night</small></h5>
                     </div>
                 </div>
-                <?php else:  ?>
-                <h4>Room Not Available in this date</h4>
-                <?php endif;  }?>
-
+                <?php  }?>
+                
             </div>
         </div>
+        <?php else:  ?>
+        <h4 style="margin-left: 10%;">Room Not Available in this date</h4>
+        <?php endif; ?>
     </section>
     <?php endif; ?>
     <?php endif; ?>

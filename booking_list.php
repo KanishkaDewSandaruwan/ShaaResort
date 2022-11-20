@@ -85,11 +85,11 @@
                     <h3 class="list-group-item-heading">
                     <?php echo $row['room_name']; ?>
                     <span class="label label-danger text-success pull-right"> 
-                        <?php if ($row['booking_status'] != "0") {
+                        <?php if ($row['booking_status'] == "0") {
                             echo 'Pending';
-                        }else if($row['booking_status'] != "1"){
+                        }else if($row['booking_status'] == "1"){
                             echo 'Accept';
-                        } elseif($row['booking_status'] != "2"){
+                        } elseif($row['booking_status'] == "2"){
                             echo 'Canceled';
                         } ?>
                     </span>
@@ -109,7 +109,7 @@
                         <option value="0">
                             ... Please Select Cancel ...
                         </option>
-                        <option value="3">
+                        <option value="2">
                             Booking Canceled
                         </option>
                     </select>

@@ -33,7 +33,7 @@
 
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Address</th>
+                                            <th>Subject</th>
                                             <th>Message</th>
                                         </tr>
                                     </thead>

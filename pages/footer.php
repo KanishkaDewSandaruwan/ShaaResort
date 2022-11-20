@@ -15,7 +15,6 @@
                                 <div class="col-4">
                                     <ul class="list_style">
                                         <li><a href="index.php">Home</a></li>
-                                        <li><a href="accomodation.php">Accomodation</a></li>
                                         <li><a href="about.php">About US</a></li>
                                     </ul>
                                 </div>

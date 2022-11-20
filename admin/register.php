@@ -1,25 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html style="background-color: #052a2a;" lang="en">
 
 
 <?php include 'template/head.php'; ?>
 
 <body>
-    <main class="d-flex w-100" >
+    <main class="d-flex w-100" style="background-color: #052a2a;">
         <div class="container d-flex flex-column">
             <div class="row vh-100">
                 <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
                     <div class="d-table-cell align-middle">
 
-                        <div class="text-center mt-4">
-                            <p class="lead">
-                                Shaa Resort Registeration
-                            </p>
-                        </div>
-
                         <div class="card">
                             <div class="card-body">
                                 <div class="m-sm-4">
+                                    <h1 style="color: #052a2a; text-align: center;"><b>SHAA RESORT - REGISTER</b></h1>
                                     <form action="" method="post">
 
                                         <div class="form-floating mb-3">
@@ -75,7 +70,7 @@
                                 </div>
                             </div>
                         </div>
-
+                    </div>
                     </div>
                 </div>
             </div>

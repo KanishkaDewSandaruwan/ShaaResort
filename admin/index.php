@@ -23,7 +23,7 @@
 											<div class="card-body">
 												<div class="row">
 													<div class="col mt-0">
-														<h5 class="card-title">Bookings</h5>
+														<h5 class="card-title">Today Earnings</h5>
 													</div>
 
 													<div class="col-auto">
@@ -49,7 +49,7 @@
 														</div>
 													</div>
 												</div>
-												<h3 class="mt-1 mb-3"><?php echo dataCount('customer') ?></h3>
+												<h3 class="mt-1 mb-3"><?php echo dataCountCustomer('customer') ?></h3>
 											</div>
 										</div>
 									</div>
