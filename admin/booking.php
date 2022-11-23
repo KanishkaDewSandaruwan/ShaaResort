@@ -90,6 +90,10 @@
                                             </td>
                                             <td>
          
+                                                <a href="bille.php?booking_id=<?php echo $row['booking_id']; ?>"
+                                                    class="btn btn-darkblue"> <i class="fa-solid fa-file-pdf"></i>
+                                                </a>
+         
                                                 <button type="button"
                                                     onclick="deleteData(<?php echo $row['booking_id']; ?>,'booking', 'booking_id')"
                                                     class="btn btn-darkblue"> <i class="fa-solid fa-trash"></i>

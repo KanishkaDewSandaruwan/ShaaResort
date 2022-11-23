@@ -137,34 +137,6 @@ function getAllOrders()
 }
 
 
-function getAllRents()
-{
-	include 'connection.php';
-
-	$rent = "SELECT * FROM vehicle_rent join customer on  customer.customer_id = vehicle_rent.customer_id WHERE vehicle_rent.is_deleted = 0";
-	return mysqli_query($con, $rent);
-
-}
-
-function getAllRentsByIDAdmin($rent_id)
-{
-	include 'connection.php';
-
-	$rent = "SELECT * FROM vehicle_rent WHERE is_deleted = 0 AND rent_id = '$rent_id' ";
-	return mysqli_query($con, $rent);
-
-}
-
-
-function getAllRentsByID($customer_id)
-{
-	include 'connection.php';
-
-	$rent = "SELECT * FROM vehicle_rent join customer on  customer.customer_id = vehicle_rent.customer_id WHERE vehicle_rent.is_deleted = 0 AND vehicle_rent.customer_id = '$customer_id'";
-	return mysqli_query($con, $rent);
-
-}
-
 function getRoomByDateAvailable($room_id, $arrival_date, $departure_date)
 {
 	include 'connection.php';
@@ -368,6 +340,14 @@ function getAllbookingByCustomer($customer_id)
     return mysqli_query($con, $q1);
 }
 
+function getBille($booking_id)
+{
+    include 'connection.php';
+
+    $q1 = "SELECT * FROM booking join room on room.room_id = booking.room_id join customer on customer.customer_id = booking.customer_id  WHERE booking.booking_id = '$booking_id' AND booking.is_deleted = 0";
+    return mysqli_query($con, $q1);
+}
+
 //contact
 
 function getAllMessages(){
@@ -396,6 +376,8 @@ function dataCountCustomer($table){
     $count =  mysqli_num_rows($res);
     echo $count;
 }
+
+
 
 function dataCountWhere($table, $where){
 	include 'connection.php';
